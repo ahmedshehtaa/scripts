@@ -1,0 +1,33 @@
+from datetime import datetime, timedelta
+from azure.data.tables import TableClient, generate_account_sas, ResourceTypes, AccountSasPermissions
+
+### the access key for storage account
+connstr=''
+TableName='' ### that been created in azure
+table_client = TableClient.from_connection_string(conn_str=connstr,table_name=TableName)
+
+#input : json file
+#output : save row in table db
+#describe  take json file to save it 
+def set_entity(my_entity):
+    entity = table_client.create_entity(entity=my_entity)
+    print(entity)
+
+#input : id you search for
+#output : get row in table db
+#describe  return row from table 
+def get_entity(PartitionKey):
+    filter="PartitionKey eq '{}'".format(PartitionKey)
+    print(filter)
+    entity = table_client.query_entities(filter)
+    for e in entity:
+        print(e)
+
+if __name__ == "__main__":
+    pass
+    #entity = {'PartitionKey': '1', 'RowKey': 'row'}
+    #set_entity(entity)
+    #PartitionKey=1
+    #get_entity(PartitionKey)
+
+
